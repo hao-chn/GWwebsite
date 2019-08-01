@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta name="viewport"
+				content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+		<meta charset="UTF-8">
+		<title>易借款</title>
+		<link class="ico" rel="shortcut icon" href="imgs/favicon.ico"/>
+		<link class="ico" rel="bookmark" href="imgs/favicon.ico"/>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+		<style type="text/css">
+			* {
+				padding: 0px;
+				margin: 0px;
+			}
+
+			#tips {
+				display: none;
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				padding: 5px;
+				background: rgba(0, 0, 0, 0.8);
+				color: white;
+				font-weight: 400;
+				line-height: 30px;
+				z-index: 500;
+				font-size: 20px;
+				text-align: right;
+			}
+
+			#tipsP {
+				display: inline-block;
+				width: 300px;
+				height: 20%;
+				position: absolute;
+				left: 10%;
+				top: 10%;
+				border-radius: 10px;
+				text-align: left;
+			}
+
+			#tips img {
+				position: relative;
+				right: 0;
+				top: 30px;
+			}
+
+			#text {
+				text-align: center;
+
+				color: #fff;
+				position: absolute;
+				top: 75%;
+				width: 100vw;
+				margin-top: 20px;
+			}
+
+			#text p {
+				color: #f4fdfc;
+				font-size: 14px;
+				letter-spacing: 1.4px;
+				margin: 0px;
+				text-decoration: underline
+			}
+		</style>
+	</head>
+
+	<body style="background: #1a74ea;">
+		<div id="title"
+				style="position: absolute;left: 0px; top: 18px;padding-left:15px;display:flex;
+				align-items: center;z-index: 10;width:
+				100%">
+			<img src="imgs/ic_yijiekuan.png" alt="易借款" width="40" style="border-radius: 5px;border: 1px solid #ffffff;">
+			<span style="margin-left: 9px;color: #1a79ec;">易借款 | 凤凰金融</span>
+		</div>
+		<div style="position: relative;">
+			<img id="bg" src="imgs/bg_down.jpg" alt="立即下载" width="100%"/>
+			<button id="btn" style="border-radius:6px;width: 90%;color: #1a79ec;background: #fbdc00;
+			position: absolute;top:65%;height: 50px; border: 0;left: 5%;font-size: 18px;outline: none;"
+					onclick="downLoad()">立即下载
+			</button>
+			<div id="text">
+				<p>登录易借款APP，完成资料认证，</p>
+				<p>审核成功即可提现！</p>
+			</div>
+		</div>
+
+		<div id="tips" style="display: none;">
+			<img class="tipsImg" src="imgs/ic_jiantou.png" alt="" width="80px"/>
+			<div id="tipsP">
+				<br/>
+				<p>请点击右上角 “···” 按钮</p>
+				<p>选择 “在浏览器中打开” 本页</p>
+			</div>
+		</div>
+		<script src="js/jquery.min.js"></script>
+		<script type="text/javascript">
+            function GetQueryString(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) return unescape(r[2]);
+                return null;
+            }
+
+            var packageName,
+                index = GetQueryString('index'),
+                packageName = GetQueryString("packageName"),
+                type = GetQueryString('type'),
+                open = GetQueryString("open"),
+                id = GetQueryString("id");
+
+            function isWeiXin() {
+                var ua = window.navigator.userAgent.toLowerCase();
+                if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            //点击按钮判断
+            function downLoad() {
+                //是否是微信浏览器
+                if (isWeiXin()) {
+                    document.getElementById("tips").style.display = "block";
+                    $(".tipsImg").animate({
+                        top: "-15px"
+                    }, 1000);
+                    $(".tipsImg").animate({
+                        top: "15px"
+                    }, 1000);
+                    setInterval(function () {
+                        $(".tipsImg").animate({
+                            top: "-15px"
+                        }, 1000);
+                        $(".tipsImg").animate({
+                            top: "15px"
+                        }, 1000);
+                    }, 2000)
+                } else {
+                    $.ajax({
+                        type: "get",
+                        url: "http://ad.mobstazinc.cn/ADClickReceive/ReceiveClickInfo?placement_id=" + id + "&imei=$im$&os_version=$ov$&os=$os$&model=$m$&lang=$lan$&country=$c$&pkg=$pkg$&app_version=$av$&net_type=$nt$&display_type=html&source_client=mobile&request_side=server&carrier=$ca$",
+                        async: true
+                    });
+                    if (open == 0) {
+						// https://mfms.mobstazinc.cn/download/yijiekuan.apk
+						location.href = "https://mfms.mobstazinc.cn/download/yijiekuan.apk";
+                        // location.href = "https://mfms.mobstazinc.cn/download/" + packageName + ".apk";
+                    } else {
+                        location.href = "pugongying.html";
+                    }
+                }
+            }
+		</script>
+	</body>
+
+</html>
